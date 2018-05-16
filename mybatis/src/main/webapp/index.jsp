@@ -1,4 +1,5 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'index.jsp' starting page</title>
+    <title>显示用户信息</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -18,9 +19,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	
+	<style type="text/css">
+		table,td{
+		    border: 1px solid;
+		    border-collapse: collapse;
+		}
+	</style>
   </head>
   
   <body>
-    This is my JSP page. <br>
+	<table>
+		<tr>
+		    <td>用户ID</td>
+		    <td>用户名</td>
+		    <td>用户生日</td>
+		    <td>工资</td>
+		</tr>
+	    <%--遍历lstUsers集合中的User对象 --%>
+		<c:forEach var="user" items="${lstUsers}">
+			<tr>
+			    <td>${user.userId}</td>
+				<td>${user.userName}</td>
+				<td>${user.userBirthday}</td>
+				<td>${user.userSalary}</td>
+			</tr>
+		</c:forEach>
+	</table>
   </body>
 </html>

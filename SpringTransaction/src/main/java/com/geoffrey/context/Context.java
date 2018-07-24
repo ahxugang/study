@@ -28,6 +28,6 @@ public class Context {
      * @return
      */
     public static <T> T getBean(Class<T> className) {
-        return (T)springContext.getBean(className);
+        return springContext.getBean(className);
     }
 }

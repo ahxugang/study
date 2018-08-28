@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
+    <property name="layout.console" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <property name="layout.file" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <property name="logPath" value="${catalina.home}/logs" />
+    <property name="logBakPath" value="${catalina.home}/logs" />
+    <property name="logFile" value="log-system.txt" />
+    <property name="logFileSize" value="10MB" />
+
+    <!-- 控制台打印日志的相关配置 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${layout.console}</pattern>
+        </layout>
+        <!-- 控制台打印日志级别，高于或者等于该级别的日志才会打印 -->
+        <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>  -->
+    </appender>
+
+    <!-- 文件保存日志的相关配置 -->
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <file>
+            ${logPath}/${logFile}
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <maxHistory>10</maxHistory>
+            <fileNamePattern>
+                ${logBakPath}/%d{yyyy-MM-dd}.%i.${logFile}
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${logFileSize}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${layout.file}</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 基于dubug处理日志：具体控制台或者文件对日志级别的处理还要看所在appender配置的filter，如果没有配置filter，则使用root配置 -->
+    <root level="INFO">
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="fileAppender" />
+    </root>
+</configuration>
